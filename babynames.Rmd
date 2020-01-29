@@ -38,15 +38,16 @@ top100 <- babynames %>%
 
 ```{r}
 x <- babynames %>%
-  inner_join(top100, by = "name")
+  inner_join(top100, by = "name") %>% 
+  group_by(name,year) %>% 
+  summarize(total = sum(n))
 ```
 
 ```{r}
 x %>%
   group_by(name) %>%
-  ggplot(aes(x = year, y = n, color = name)) +
-  geom_point() +
-  geom_path() +
+  ggplot(aes(x = year, y = total, color = name)) +
+  geom_line() +
   theme(legend.position = "none")
 ```
 
