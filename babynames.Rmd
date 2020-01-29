@@ -1,0 +1,69 @@
+---
+title: "Baby Names"
+author: "Hannah Valencia"
+date: "1/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(babynames)
+library(dplyr)
+library(tidyverse)
+```
+
+
+```{r}
+babynames %>%
+  filter(name == "Alison")
+```
+```{r}
+babynames %>%
+  filter(name == "Hannah") %>%
+  group_by(sex) %>%
+  ggplot(aes(x = year, y = n, fill = sex)) +
+  geom_col() +
+  labs(title = "Popularity of the Name 'Alison' Over Time", subtitle = "A bar graph with fill by sex")
+```
+
+```{r}
+top100 <- babynames %>%
+  filter(year == 2017) %>%
+  group_by(name) %>%
+  summarise(total = sum(n)) %>%
+  arrange(desc(total)) %>%
+  head(100)
+```
+
+```{r}
+x <- babynames %>%
+  inner_join(top100, by = "name")
+```
+
+```{r}
+x %>%
+  group_by(name) %>%
+  ggplot(aes(x = year, y = n, color = name)) +
+  geom_point() +
+  geom_path() +
+  theme(legend.position = "none")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
